@@ -1,9 +1,12 @@
 package es.eoi.mundobancario.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -17,14 +20,25 @@ public class ClienteController {
 	ClienteService service;
 	
 	@GetMapping("clientes/{id}")
-	public Cliente findCliuentById (@PathVariable Integer id) {
-		return service.findClienteById(id);
+	public ResponseEntity<Cliente> findCliuentById (@PathVariable Integer id) {
+		return ResponseEntity.ok(service.findClienteById(id)) ;
 	}
 	
 	@PostMapping("clientes")
-	public void createCliente(@RequestBody Cliente cliente) {
+	public ResponseEntity<String> createCliente(@RequestBody Cliente cliente) {
 		service.createCliente(cliente);
-	
+		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
+	@PutMapping("clientes/{id}")
+	public ResponseEntity<String> updateCliente(@PathVariable Integer id, @RequestBody Cliente cliente) {
+		
+		if(!id.equals(cliente.getId())) {
+			return new ResponseEntity<String>(HttpStatus.BAD_REQUEST);
+		} else {
+			cliente.setId(id);
+			service.updateCliente(cliente);
+			return new ResponseEntity<String>(HttpStatus.ACCEPTED);
+		}
+	} 
 }

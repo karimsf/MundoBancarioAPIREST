@@ -19,6 +19,10 @@ public class ClienteService {
 	public void createCliente (Cliente cliente) {
 		repository.create(cliente);
 	}
+	
+	public void updateCliente (Cliente cliente) {
+		repository.update(cliente);
+	}
 		
 	
 }

@@ -33,5 +33,15 @@ class MundoBancarioApplicationTests {
 		repo.create(cliente);
 		
 	}
+	
+	@Test
+	void testUpdateCliente() {
+		
+		ClienteRepository repo=new ClienteRepository();
+		Cliente cliente=repo.findById(4);
+		cliente.setNombre("PEDRITO");;
+		repo.update(cliente);
+		
+	}
 
 }

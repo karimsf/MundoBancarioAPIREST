@@ -75,7 +75,22 @@ public class ClienteRepository implements MyRepository<Cliente> {
 
 	@Override
 	public void update(Cliente e) {
-		// TODO Auto-generated method stub
+		try {
+			Connection con=getConnection();
+			PreparedStatement st=con.prepareStatement(
+					"UPDATE mundobancario.clientes SET USUARIO = ?, PASS = ?, NOMBRE = ?, EMAIL = ? WHERE ID = ?");
+			st.setString(1, e.getUsuario());
+			st.setString(2, e.getPass());
+			st.setString(3, e.getNombre());
+			st.setString(4, e.getEmail());
+			st.setInt(5, e.getId());
+			
+			st.executeUpdate();
+
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		
 	}
 
