@@ -15,6 +15,10 @@ public class ClienteService {
 	public Cliente findClienteById(Integer id) {
 		return repository.findById(id);
 	}
+	
+	public void createCliente (Cliente cliente) {
+		repository.create(cliente);
+	}
 		
 	
 }

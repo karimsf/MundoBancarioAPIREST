@@ -17,6 +17,21 @@ class MundoBancarioApplicationTests {
 		ClienteRepository repo=new ClienteRepository();
 		Cliente cliente=repo.findById(1);
 		assertThat(cliente.getNombre().contentEquals("JJ"));
+		
+	}
+	
+	@Test
+	void testCreateCliente() {
+		
+		ClienteRepository repo=new ClienteRepository();
+		Cliente cliente=new Cliente();
+		cliente.setUsuario("Presi");
+		cliente.setPass("DINEROS");
+		cliente.setNombre("RAJOY");
+		cliente.setEmail("MONCLOA@GMAIL.LOL");
+		
+		repo.create(cliente);
+		
 	}
 
 }

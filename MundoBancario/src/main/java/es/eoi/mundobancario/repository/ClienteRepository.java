@@ -14,18 +14,21 @@ import es.eoi.mundobancario.domain.Cliente;
 @Repository
 public class ClienteRepository implements MyRepository<Cliente> {
 	
+	public Connection getConnection() throws SQLException {
+		String url = "jdbc:mysql://localhost:3306/mundobancario?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
+		String user = "root";
+		String pass = "1234" ;
+		return DriverManager.getConnection(url, user, pass);
+	}
+	
+	
 	@Override
 	public Cliente findById(Integer id) {
 		
 		Cliente entity=null;
 		
 		try {
-			
-			String url = "jdbc:mysql://localhost:3306/mundobancario?useUnicode=true&useJDBCCompliantTimezoneShift=true&useLegacyDatetimeCode=false&serverTimezone=UTC";
-			String user = "root";
-			String pass = "1234" ;
-			Connection con = DriverManager.getConnection(url, user, pass);
-			
+			Connection con=getConnection();
 			PreparedStatement st=con.prepareStatement(
 					"SELECT id,usuario,pass,nombre,email FROM mundobancario.clientes WHERE id=?");
 			st.setInt(1, id);
@@ -51,7 +54,22 @@ public class ClienteRepository implements MyRepository<Cliente> {
 
 	@Override
 	public void create(Cliente e) {
-		// TODO Auto-generated method stub
+		
+		try {
+			Connection con=getConnection();
+			PreparedStatement st=con.prepareStatement(
+					"INSERT INTO mundobancario.clientes (USUARIO, PASS, NOMBRE, EMAIL) VALUES (?, ?, ?, ?)");
+			st.setString(1, e.getUsuario());
+			st.setString(2, e.getPass());
+			st.setString(3, e.getNombre());
+			st.setString(4, e.getEmail());
+			
+			st.executeUpdate();
+
+			
+		} catch (SQLException ex) {
+			ex.printStackTrace();
+		}
 		
 	}
 
