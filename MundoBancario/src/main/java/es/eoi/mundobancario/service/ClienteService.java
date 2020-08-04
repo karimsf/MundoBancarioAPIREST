@@ -1,5 +1,7 @@
 package es.eoi.mundobancario.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -24,5 +26,12 @@ public class ClienteService {
 		repository.update(cliente);
 	}
 		
+	public void deleteById (Integer id) {
+		repository.deleteById(id);
+	}
+	
+	public List<Cliente> findAll() {
+		return repository.findAll();
+	}
 	
 }

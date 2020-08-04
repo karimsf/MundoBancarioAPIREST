@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.stereotype.Repository;
@@ -96,14 +97,47 @@ public class ClienteRepository implements MyRepository<Cliente> {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		
+		try {
+			Connection con=getConnection();
+			PreparedStatement st=con.prepareStatement(
+					"DELETE FROM mundobancario.clientes WHERE ID=?");
+			st.setInt(1, id);
+			st.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public List<Cliente> findAll() {
-		// TODO Auto-generated method stub
-		return null;
+		
+		List<Cliente> lista = new ArrayList<Cliente>();
+		
+		
+		try {
+			Connection con=getConnection();
+			PreparedStatement st=con.prepareStatement(
+					"SELECT id,usuario,pass,nombre,email FROM mundobancario.clientes");
+	
+			ResultSet rs=st.executeQuery();
+			while(rs.next()) {
+				Cliente entity = new Cliente();
+				entity=new Cliente();
+				entity.setId(rs.getInt("id"));
+				entity.setUsuario(rs.getString("usuario"));
+				entity.setPass(rs.getString("pass"));
+				entity.setNombre(rs.getString("nombre"));
+				entity.setEmail(rs.getString("email"));
+				lista.add(entity);	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
+		
 	}
-
 }
