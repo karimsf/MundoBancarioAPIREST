@@ -16,7 +16,7 @@ class MundoBancarioApplicationTests {
 		
 		ClienteRepository repo=new ClienteRepository();
 		Cliente cliente=repo.findById(1);
-		assertThat(cliente.getNombre().contentEquals("JJ"));
+		assertThat(cliente.getNombre().contentEquals("Pepe"));
 		
 	}
 	
