@@ -10,7 +10,6 @@ import java.util.List;
 
 import org.springframework.stereotype.Repository;
 
-import es.eoi.mundobancario.domain.Cliente;
 import es.eoi.mundobancario.domain.Cuenta;
 
 @Repository
@@ -31,7 +30,7 @@ public class CuentaRepository implements MyRepository<Cuenta>  {
 		try {
 			Connection con=getConnection();
 			PreparedStatement st=con.prepareStatement(
-					"SELECT num_cuenta,alias,saldo,id_cliente FROM mundobancario.cuentas WHERE id=?");
+					"SELECT num_cuenta,alias,saldo,id_cliente FROM mundobancario.cuentas WHERE num_cuenta=?");
 			st.setInt(1, id);
 			
 			ResultSet rs=st.executeQuery();
@@ -96,15 +95,46 @@ public class CuentaRepository implements MyRepository<Cuenta>  {
 
 	@Override
 	public void deleteById(Integer id) {
-		// TODO Auto-generated method stub
+		
+		try {
+			Connection con=getConnection();
+			PreparedStatement st=con.prepareStatement(
+					"DELETE FROM mundobancario.cuentas WHERE ID=?");
+			st.setInt(1, id);
+			st.executeUpdate();
+		} catch (SQLException e) {
+			
+			e.printStackTrace();
+		}
 		
 	}
 
 	@Override
 	public List<Cuenta> findAll() {
-		// TODO Auto-generated method stub
-		return null;
-	}
+		
+List<Cuenta> lista = new ArrayList<Cuenta>();
+		
+		try {
+			Connection con=getConnection();
+			PreparedStatement st=con.prepareStatement(
+					"SELECT num_cuenta,alias,saldo,id_cliente, FROM mundobancario.cuentas");
 	
+			ResultSet rs=st.executeQuery();
+			while(rs.next()) {
+				Cuenta entity = new Cuenta();
+				entity=new Cuenta();
+				entity.setNum_cuenta(rs.getInt("num_cuenta"));
+				entity.setAlias(rs.getString("alias"));
+				entity.setSaldo(rs.getDouble("saldo"));
+				entity.setId_cliente(rs.getInt("id_cliente"));;
+				lista.add(entity);	
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return lista;
+		
+	}
 	
 }
