@@ -30,7 +30,7 @@ public class CuentaRepository implements MyRepository<Cuenta>  {
 		try {
 			Connection con=getConnection();
 			PreparedStatement st=con.prepareStatement(
-					"SELECT num_cuenta,alias,saldo,id_cliente FROM mundobancario.cuentas WHERE num_cuenta=?");
+					"SELECT ID, USUARIO, PASS, NOMBRE, EMAIL, NUM_CUENTA, ALIAS, SALDO, ID_CLIENTE  FROM mundobancario.clientes INNER JOIN mundobancario.cuentas ON clientes.id = cuentas.id_cliente WHERE ID_CLIENTE = ?");
 			st.setInt(1, id);
 			
 			ResultSet rs=st.executeQuery();
@@ -78,7 +78,7 @@ public class CuentaRepository implements MyRepository<Cuenta>  {
 		try {
 			Connection con=getConnection();
 			PreparedStatement st=con.prepareStatement(
-					"UPDATE mundobancario.cuentas SET NUM_CUENTA = ?, ALIAS = ?, SALDO = ? WHERE ID = ?");
+					"UPDATE mundobancario.cuentas SET NUM_CUENTA = ?, ALIAS = ?, SALDO = ? WHERE ID_CLIENTE = ?");
 			st.setInt(1, e.getNum_cuenta());
 			st.setString(2, e.getAlias());
 			st.setDouble(3, e.getSaldo());
@@ -99,42 +99,41 @@ public class CuentaRepository implements MyRepository<Cuenta>  {
 		try {
 			Connection con=getConnection();
 			PreparedStatement st=con.prepareStatement(
-					"DELETE FROM mundobancario.cuentas WHERE ID=?");
+					"DELETE FROM mundobancario.cuentas WHERE ID_CLIENTE=?");
 			st.setInt(1, id);
 			st.executeUpdate();
 		} catch (SQLException e) {
 			
 			e.printStackTrace();
 		}
-		
 	}
 
 	@Override
-	public List<Cuenta> findAll() {
+	public List<Cuenta> findAll() {	
 		
-List<Cuenta> lista = new ArrayList<Cuenta>();
-		
-		try {
-			Connection con=getConnection();
-			PreparedStatement st=con.prepareStatement(
-					"SELECT num_cuenta,alias,saldo,id_cliente, FROM mundobancario.cuentas");
-	
-			ResultSet rs=st.executeQuery();
-			while(rs.next()) {
-				Cuenta entity = new Cuenta();
-				entity=new Cuenta();
-				entity.setNum_cuenta(rs.getInt("num_cuenta"));
-				entity.setAlias(rs.getString("alias"));
-				entity.setSaldo(rs.getDouble("saldo"));
-				entity.setId_cliente(rs.getInt("id_cliente"));;
-				lista.add(entity);	
-			}
+		List<Cuenta> lista = new ArrayList<Cuenta>();
+				
+				try {
+					Connection con=getConnection();
+					PreparedStatement st=con.prepareStatement(
+							"SELECT num_cuenta,alias,saldo,id_cliente FROM mundobancario.cuentas");
 			
-		} catch (SQLException e) {
-			e.printStackTrace();
-		}
-		return lista;
-		
-	}
+					ResultSet rs=st.executeQuery();
+					while(rs.next()) {
+						Cuenta entity = new Cuenta();
+						entity=new Cuenta();
+						entity.setNum_cuenta(rs.getInt("num_cuenta"));
+						entity.setAlias(rs.getString("alias"));
+						entity.setSaldo(rs.getDouble("saldo"));
+						entity.setId_cliente(rs.getInt("id_cliente"));;
+						lista.add(entity);	
+					}
+					
+				} catch (SQLException e) {
+					e.printStackTrace();
+				}
+				return lista;
+				
+			}
 	
 }

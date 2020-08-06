@@ -140,4 +140,5 @@ public class ClienteRepository implements MyRepository<Cliente> {
 		return lista;
 		
 	}
+
 }

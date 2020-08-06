@@ -27,7 +27,7 @@ public class CuentasController {
 		return ResponseEntity.ok(service.findCuentaById(id)) ;
 	}
 	
-	@GetMapping("Cuenta")
+	@GetMapping("cuentas")
 	public ResponseEntity<List<Cuenta>> findAll() {
 		return ResponseEntity.ok(service.findAll()) ;
 	}
@@ -38,7 +38,7 @@ public class CuentasController {
 		return new ResponseEntity<String>(HttpStatus.CREATED);
 	}
 	
-	@PutMapping("cuentas/{id}")
+	@PutMapping("cuentas/{id_cliente}")
 	public ResponseEntity<String> updateCuenta(@PathVariable Integer id, @RequestBody Cuenta cuenta) {
 		
 		if(!id.equals(cuenta.getId_cliente())) {
@@ -50,7 +50,7 @@ public class CuentasController {
 		}
 	} 
 	
-	@DeleteMapping("cuentas/{id}")
+	@DeleteMapping("cuentas/{id_cliente}")
 	public ResponseEntity<String> deleteCuentaById (@PathVariable Integer id) {
 		service.deleteById(id);
 		return new ResponseEntity<String>(HttpStatus.ACCEPTED);
