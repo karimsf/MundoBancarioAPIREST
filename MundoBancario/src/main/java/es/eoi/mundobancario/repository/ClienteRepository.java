@@ -137,7 +137,7 @@ public class ClienteRepository implements MyRepository<Cliente> {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
-		return lista;
+		return lista ;
 		
 	}
 
